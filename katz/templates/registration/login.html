@@ -1,0 +1,36 @@
+{% extends 'generic.html' %}
+{% block title %}Login{% endblock %}
+{% block body %}
+<div class="d-flex align-self-center justify-content-center align-items-center" style="min-height: 88.3vh;">
+    <div class="row orm-group m-5 align-self-center h-100" style="min-height: 100%;">
+    {% if form.errors %} 
+        <p class="d-inline-flex p-3 mb-2 bg-danger text-white">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="d-inline-flex p-3 mb-2 bg-danger text-white">Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% endif %}
+    {% endif %}
+
+    <form class='p3 justify-center' method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="col-auto">
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+            </tr>
+        </table>
+        <input class='btn btn-primary' type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+    </form>
+    </div>
+</div>
+{% endblock %}
